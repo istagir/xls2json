@@ -51,7 +51,7 @@ namespace excel2json
                             writer.WriteStartObject();
                             for(int c = 0; c < reader.FieldCount; c++)
                             {
-                                writer.WritePropertyName(excelwords.GetWord(c));
+                                writer.WritePropertyName(excelwords.GetWord(c + 1));
                                 
                                 if (reader.GetValue(c) != null)
                                 {

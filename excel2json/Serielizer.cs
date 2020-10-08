@@ -13,10 +13,13 @@ namespace excel2json
         public Serielizer(string filename)
         {
             excelFile = filename;
+
         }
 
         public MemoryStream Convert()
         {
+            int Row = 0;
+            int Col = 0;
             var excelwords = new ExcelColumns();
 
             var memoryStream = new MemoryStream();
@@ -37,22 +40,29 @@ namespace excel2json
                         string sheetName = result.Tables[sheetNum].TableName; // save list name
                         sheetNum++;
 
-                        int Row = reader.RowCount;
-                        int Col = reader.FieldCount;
+                        Row = reader.RowCount;
+                        Col = reader.FieldCount;
 
                         writer.WritePropertyName(sheetName);
-                        writer.WriteStartArray();
-                        for(int i = 0; i < Row; i++)
+                        writer.WriteStartObject();
+                        for (int i = 0; i < Row; i++)
                         {
                             reader.Read();
-                            writer.WriteStartObject();
-                            writer.WritePropertyName("List: " + sheetName + " Row " + (i + 1).ToString());
+
+
+                            string countName = "";
+                            if (reader.GetValue(0) != null)
+                            {
+                                countName = reader.GetValue(0).ToString();
+                            }
+                            writer.WritePropertyName(countName + "[" + (i + 1).ToString() + "]");
 
                             writer.WriteStartObject();
-                            for(int c = 0; c < reader.FieldCount; c++)
+
+                            for (int c = 0; c < reader.FieldCount; c++)
                             {
                                 writer.WritePropertyName(excelwords.GetWord(c + 1));
-                                
+                                //string q = reader.GetName(c);
                                 if (reader.GetValue(c) != null)
                                 {
                                     writer.WriteValue(reader.GetValue(c).ToString());
@@ -61,20 +71,21 @@ namespace excel2json
                                 {
                                     writer.WriteValue("");
                                 }
-                                
+
                             }
-                            writer.WriteEndObject();
+
                             writer.WriteEndObject();
 
                         }
-                        writer.WriteEndArray();
-
+                        //writer.WriteEndArray();
+                        writer.WriteEndObject();
 
                     } while (reader.NextResult());
                     writer.WriteEndObject(); //first obj
                 }
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return memoryStream;
+
             }
         }
     }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
  using System.IO;
 using System.Linq;
  using System.Threading.Tasks;
+ using ExcellParser.ExcellParser;
  using Lab1_ping;
  using Newtonsoft.Json;
 using OfficeOpenXml;
 
 
-namespace ExcellParser
+namespace WebApplication1
 {
     public abstract class Parser
     {
@@ -43,14 +44,16 @@ namespace ExcellParser
                     {
                         for (int colNum = 1; colNum <= totalColumns; colNum++)
                         {
-                            var cell = myWorksheet.Cells[rowNum, colNum, rowNum, colNum].Select(c => c.Value == null ? string.Empty : c.Value.ToString());
+                            var cell=myWorksheet.Cells[rowNum,colNum,rowNum,colNum].Select(c => c.Value == null ? string.Empty : c.Value.ToString());
                             String str=string.Join("", cell);
                             var address = myWorksheet.Cells[rowNum, colNum, rowNum, colNum].Address;
                             data[rowNum - 1, colNum - 1] = "[" + address + "] " + str;
                         }
                     }
+              
                     Task<Dictionary<string,List<string>>> t1 =factory.StartNew(() => {
-                        _operations.removeFirstEmpty(ref data); 
+                        _operations.removeFirstEmpty(ref data);
+                  
                         return createKeyValue(data);
                     });
                     tasks.Add(t1);

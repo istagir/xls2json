@@ -62,7 +62,7 @@ namespace ExcellParser
                         return createKeyValue(data);
                     });
                     tasks.Add(t1);
-                    names[i] = myWorksheet.Name;
+                    names[i] = "[" + (i + 1) + "] " + myWorksheet.Name;
                 }
                 Task.WaitAll(tasks.ToArray());
                 int k = 0;
@@ -96,7 +96,8 @@ namespace ExcellParser
         }
         protected bool check(string s)
         {
-            return String.IsNullOrEmpty(s) || s == Double.NaN.ToString();
+            var words = s.Split(new char[] { ' ' });
+            return String.IsNullOrEmpty(words[1]) || s == Double.NaN.ToString();
         }
     }
 }

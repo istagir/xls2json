@@ -43,20 +43,12 @@ namespace ExcellParser
                     {
                         for (int colNum = 1; colNum <= totalColumns; colNum++)
                         {
-                            var cell=myWorksheet.Cells[rowNum,colNum,rowNum,colNum].Select(c => c.Value == null ? string.Empty : c.Value.ToString());
+                            var cell = myWorksheet.Cells[rowNum, colNum, rowNum, colNum].Select(c => c.Value == null ? string.Empty : c.Value.ToString());
                             String str=string.Join("", cell);
-                            if (colNum == 1)
-                            {
-                                data[rowNum - 1, colNum - 1] = str;
-                            }
-                            else
-                            {
-                                var address = myWorksheet.Cells[rowNum, colNum, rowNum, colNum].Address;
-                                data[rowNum - 1, colNum - 1] = "[" + address + "] " + str;
-                            }
+                            var address = myWorksheet.Cells[rowNum, colNum, rowNum, colNum].Address;
+                            data[rowNum - 1, colNum - 1] = "[" + address + "] " + str;
                         }
                     }
-                
                     Task<Dictionary<string,List<string>>> t1 =factory.StartNew(() => {
                         _operations.removeFirstEmpty(ref data); 
                         return createKeyValue(data);
@@ -97,7 +89,7 @@ namespace ExcellParser
         protected bool check(string s)
         {
             var words = s.Split(new char[] { ' ' });
-            return String.IsNullOrEmpty(words[1]) || s == Double.NaN.ToString();
+            return String.IsNullOrEmpty(words[1]) || words[1] == Double.NaN.ToString();
         }
     }
 }

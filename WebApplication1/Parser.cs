@@ -45,7 +45,15 @@ namespace ExcellParser
                         {
                             var cell=myWorksheet.Cells[rowNum,colNum,rowNum,colNum].Select(c => c.Value == null ? string.Empty : c.Value.ToString());
                             String str=string.Join("", cell);
-                            data[rowNum-1, colNum-1] = str;
+                            if (colNum == 1)
+                            {
+                                data[rowNum - 1, colNum - 1] = str;
+                            }
+                            else
+                            {
+                                var address = myWorksheet.Cells[rowNum, colNum, rowNum, colNum].Address;
+                                data[rowNum - 1, colNum - 1] = "[" + address + "] " + str;
+                            }
                         }
                     }
                 
@@ -63,7 +71,7 @@ namespace ExcellParser
                     dictionaryOut.Add(names[k],task.Result);
                     k++;
                 }
-                return JsonConvert.SerializeObject(dictionaryOut);
+                return JsonConvert.SerializeObject(dictionaryOut, Formatting.Indented);
             }
         } 
        

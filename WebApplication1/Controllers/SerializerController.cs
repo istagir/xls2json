@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using ExcellParser;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1;
 
@@ -22,12 +23,13 @@ namespace WebAPIApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post()
+        public IActionResult Post(IFormFile loadfile)
         {
-            if (HttpContext.Request.Form.Files[0] != null) {
+           
+            if (loadfile!= null) {
                 try
                 {
-                    var file = HttpContext.Request.Form.Files[0];
+                    var file = loadfile;
                     using (FileStream fs = new FileStream(path + name, FileMode.CreateNew, FileAccess.Write,
                         FileShare.Write))
                     {

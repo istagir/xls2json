@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WebApplication1
 {
@@ -25,6 +26,10 @@ namespace WebApplication1
                     {
                         if (check(data[rowNum, colNum]))
                         {
+                            if (!dictionaryIn.ContainsKey(fcol[rowNum]))
+                            {
+                                dictionaryIn.Add(fcol[rowNum],new List<string>());
+                            }
                             continue;
                         }
 

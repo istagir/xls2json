@@ -44,16 +44,15 @@ namespace WebApplication1
                     {
                         for (int colNum = 1; colNum <= totalColumns; colNum++)
                         {
-                            var cell=myWorksheet.Cells[rowNum,colNum,rowNum,colNum].Select(c => c.Value == null ? string.Empty : c.Value.ToString());
+                            var cell = myWorksheet.Cells[rowNum, colNum, rowNum, colNum].Select(c => c.Value == null ? string.Empty : c.Value.ToString());
                             String str=string.Join("", cell);
                             var address = myWorksheet.Cells[rowNum, colNum, rowNum, colNum].Address;
                             data[rowNum - 1, colNum - 1] = "[" + address + "] " + str;
                         }
                     }
-              
+
                     Task<Dictionary<string,List<string>>> t1 =factory.StartNew(() => {
                         _operations.removeFirstEmpty(ref data);
-                  
                         return createKeyValue(data);
                     });
                     tasks.Add(t1);

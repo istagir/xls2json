@@ -53,6 +53,7 @@ namespace WebApplication1
 
                     Task<Dictionary<string,List<string>>> t1 =factory.StartNew(() => {
                         _operations.removeFirstEmpty(ref data);
+                  
                         return createKeyValue(data);
                     });
                     tasks.Add(t1);

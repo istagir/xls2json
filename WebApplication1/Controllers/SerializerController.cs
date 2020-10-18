@@ -14,8 +14,9 @@ namespace WebAPIApp.Controllers
     [Route("/app/[controller]")]
     public class SerializerController : Controller
     {
-        private String path = "../WebApplication1/SaveFile/";
-        private String name = "File.xlsx";
+        private String path = "../";
+        private String name = "file.xlsx";
+   
         private Parser serializer;
         public SerializerController( Parser serializer)
         {
@@ -35,11 +36,8 @@ namespace WebAPIApp.Controllers
                     {
                         file.CopyTo(fs);
                     }
-
-                    string result = Task.Factory.StartNew(() =>
-                    {
-                        return serializer.parse(path+name);
-                    }).Result;
+                    
+                    string result =  serializer.parse(path+name);
                     return Ok(result);
                 }
                 catch (Exception e)

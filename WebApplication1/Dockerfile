@@ -13,5 +13,7 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /app
 COPY --from=build-env /app/out .
-EXPOSE 8080
-ENTRYPOINT ["dotnet","WebApplication1.dll"]
+EXPOSE 80
+ENTRYPOINT ["dotnet", "/app/WebApplication1.dll"]
+
+

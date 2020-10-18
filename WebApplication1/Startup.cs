@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using WebApplication1.ExcellParser;
 
 namespace WebApplication1
@@ -19,6 +20,7 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+       
             services.AddTransient<Parser,ColumnParser>();
             services.AddControllers();
             services.AddSwaggerGen();
@@ -30,9 +32,11 @@ namespace WebApplication1
            
             app.UseSwagger();
 
-           
+            app.UseAuthentication();
             app.UseSwaggerUI(c =>
             {
+                c.DocExpansion(DocExpansion.None);
+                c.DefaultModelRendering(0);
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.RoutePrefix = "app/swagger";
             });
@@ -47,7 +51,7 @@ namespace WebApplication1
             app.UseRouting();
 
             app.UseAuthorization();
-
+          
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

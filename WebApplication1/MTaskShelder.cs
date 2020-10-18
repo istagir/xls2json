@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Lab1_ping
+namespace WebApplication1
 {
     public class MTaskShelder : TaskScheduler
     {

@@ -1,6 +1,5 @@
 ﻿﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
+
 
  namespace ExcellParser
  {
@@ -117,21 +116,6 @@ using System.Data.Common;
                  }
 
                  originalArray = result;
-             }
-
-             public void showMatrix(string[,] data)
-             {
-                 int n = data.GetLength(0);
-                 int m = data.GetLength(1);
-                 for (int j = 0; j < n; j++)
-                 {
-                     for (int k = 0; k < m; k++)
-                     {
-                         Console.Write(data[j, k] + " ");
-                     }
-
-                     Console.WriteLine();
-                 }
              }
          }
      }

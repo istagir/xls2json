@@ -17,3 +17,4 @@ EXPOSE 80
 ENTRYPOINT ["dotnet", "/app/WebApplication1.dll"]
 
 
+

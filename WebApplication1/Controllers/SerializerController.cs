@@ -5,6 +5,7 @@ using ExcellParser;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1;
+using WebApplication1.ExcellParser;
 
 
 namespace WebAPIApp.Controllers
@@ -18,10 +19,7 @@ namespace WebAPIApp.Controllers
         private String name = "file.xlsx";
    
         private Parser serializer;
-        public SerializerController( Parser serializer)
-        {
-            this.serializer = serializer;
-        }
+    
 
         [HttpPost]
         public IActionResult Post(IFormFile loadfile)
@@ -36,7 +34,7 @@ namespace WebAPIApp.Controllers
                     {
                         file.CopyTo(fs);
                     }
-                    
+                    serializer=new ColumnParser();
                     string result =  serializer.parse(path+name);
                     return Ok(result);
                 }

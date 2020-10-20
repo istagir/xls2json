@@ -21,7 +21,7 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
        
-            services.AddTransient<Parser,ColumnParser>();
+            
             services.AddControllers();
             services.AddSwaggerGen();
         }

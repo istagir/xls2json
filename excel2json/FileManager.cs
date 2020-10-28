@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.IO;
 
 namespace excel2json
@@ -8,6 +9,7 @@ namespace excel2json
     {
         private IWebHostEnvironment _hostingEnvironment;
         private string filePath;
+        public string parPath;
 
         public FileManager(IWebHostEnvironment environment)
         {
@@ -17,8 +19,8 @@ namespace excel2json
 
         public string Upload(IFormFile file)
         {
-            var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+            Directory.CreateDirectory(uploads);
             var filePath = Path.Combine(uploads, file.FileName);
 
             this.filePath = filePath;

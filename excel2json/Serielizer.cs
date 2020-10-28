@@ -9,7 +9,6 @@ namespace excel2json
     public class Serielizer
     {
         private string excelFile;
-
         public Serielizer(string filename)
         {
             excelFile = filename;
@@ -39,6 +38,7 @@ namespace excel2json
                     {
                         string sheetName = result.Tables[sheetNum].TableName; // save list name
                         sheetNum++;
+                        bool emptyString;
 
                         Row = reader.RowCount;
                         Col = reader.FieldCount;
@@ -48,34 +48,47 @@ namespace excel2json
                         for (int i = 0; i < Row; i++)
                         {
                             reader.Read();
-
-
-                            string countName = "";
-                            if (reader.GetValue(0) != null)
-                            {
-                                countName = reader.GetValue(0).ToString();
-                            }
-                            writer.WritePropertyName(countName + "[" + (i + 1).ToString() + "]");
-
-                            writer.WriteStartObject();
-
+                            emptyString = true;
+                            //////////////////////////////////
                             for (int c = 0; c < reader.FieldCount; c++)
                             {
-                                writer.WritePropertyName(excelwords.GetWord(c + 1));
-                                //string q = reader.GetName(c);
                                 if (reader.GetValue(c) != null)
                                 {
-                                    writer.WriteValue(reader.GetValue(c).ToString());
+                                    if (reader.GetValue(c).ToString() != "") {
+                                        emptyString = false;
+                                        break;
+                                    }
                                 }
-                                else
-                                {
-                                    writer.WriteValue("");
-                                }
-
                             }
+                            //////////////////////////////////
+                            if(!emptyString)
+                            {
+                                string countName = "";
+                                if (reader.GetValue(0) != null)
+                                {
+                                    countName = reader.GetValue(0).ToString();
+                                }
+                                writer.WritePropertyName(countName + "[" + (i + 1).ToString() + "]");
 
-                            writer.WriteEndObject();
+                                writer.WriteStartObject();
 
+                                for (int c = 0; c < reader.FieldCount; c++)
+                                {
+                                    writer.WritePropertyName(excelwords.GetWord(c + 1));
+                                    //string q = reader.GetName(c);
+                                    if (reader.GetValue(c) != null)
+                                    {
+                                        writer.WriteValue(reader.GetValue(c).ToString());
+                                    }
+                                    else
+                                    {
+                                        writer.WriteValue("");
+                                    }
+
+                                }
+
+                                writer.WriteEndObject();
+                            }
                         }
                         //writer.WriteEndArray();
                         writer.WriteEndObject();
@@ -85,7 +98,6 @@ namespace excel2json
                 }
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return memoryStream;
-
             }
         }
     }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using excel2json;
 
 namespace excel2json.Controllers
 {
@@ -26,6 +27,7 @@ namespace excel2json.Controllers
             var stream = serializer.Convert();
 
             filemanager.Delete();
+
 
             return File(stream, MediaTypeNames.Application.Json, excelfile.FileName + ".json");
         }
